@@ -1,0 +1,7 @@
+# virtual environment
+venv/
+
+# output of compiled cairo files
+*.json
+
+
