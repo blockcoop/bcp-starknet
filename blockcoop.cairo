@@ -198,6 +198,17 @@ func getMembers{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}
     return (array_len, array)
 end
 
+@view
+func getDetails{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}() -> (name: felt, symbol: felt, initiator: felt, quorum: felt, supermajority: felt):
+    let (name_) = ERC20.name()
+    let (symbol_) = ERC20.symbol()
+    let (initiator) = coop_initiator.read()
+    let (quorum_) = quorum.read()
+    let (supermajority_) = supermajority.read()
+
+    return (name_, symbol_, initiator, quorum_, supermajority_)
+end
+
 func array_values{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(array_len : felt, array : felt*):
     if array_len == 0:
         return ()
@@ -403,7 +414,9 @@ func process_voting{
 
     let (eligible) = is_le(min_votes, (yes+no)*100)
     if eligible == 1:
-        let (win) = is_le(no, yes + 1)
+        # consider supermajority while calculating win
+        let (win) = is_le(no, yes + 1) 
+        
         if win == 1:
             task_status.write(task_id, 3)
         else:
@@ -439,4 +452,4 @@ end
 
 # task status:- 0:proposed, 1:not_accepted, 2:cancelled, 3:started, 4:failed, 5:completed
 
-# Contract class hash: 0xd458fce34237633ac741c11baba5990c7d21c507132b824410ea40ad5bd750
+# Contract class hash: 0x4eb5e51a5bb5e9365027e2ff804dce65483442b400ce6dbd42306e45ef61763
