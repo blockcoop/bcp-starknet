@@ -227,11 +227,12 @@ func getTaskCount{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_pt
 end
 
 @view
-func getTask{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(task_id: felt) -> (task: Task):
+func getTask{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(task_id: felt) -> (creator: felt, details: felt, voting_deadline: felt, task_deadline: felt, status: felt):
     let (count) = tasks_count.read()
     assert_le(task_id, count)
     let (task) = tasks.read(task_id)
-    return (task)
+    let (status) = task_status.read(task_id)
+    return (task.creator, task.details, task.voting_deadline, task.task_deadline, status)
 end
 
 @view
@@ -452,4 +453,4 @@ end
 
 # task status:- 0:proposed, 1:not_accepted, 2:cancelled, 3:started, 4:failed, 5:completed
 
-# Contract class hash: 0x4eb5e51a5bb5e9365027e2ff804dce65483442b400ce6dbd42306e45ef61763
+# Contract class hash: 0x770a02832e088bfaf2d15fd66de810409ce38b29fc9ec8a7fba6ec05a6628d2

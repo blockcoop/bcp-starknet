@@ -88,4 +88,4 @@ func create_coop{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr
     return ()
 end
 
-# Contract address: 0x044db559556170b9dd2f8f17b1ed8fe076b8d54aa56f825796ebee046008093f
+# Contract address: 0x034ed1ba295b32b4d104972b2b40616005f3d6baaad5ffaf1ccf62d5dbade0b8
